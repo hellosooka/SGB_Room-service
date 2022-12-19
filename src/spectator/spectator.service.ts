@@ -3,10 +3,10 @@ import { PrismaService } from 'src/prisma.service';
 import { Prisma } from '@prisma/client';
 
 @Injectable()
-export class UserService {
+export class SpectatorService {
   constructor(private prisma: PrismaService) { }
 
-  getAllUsers() {
-    return this.prisma.user.findMany();
+  createSpectator(data: Prisma.SpectatorCreateInput) {
+    return this.prisma.spectator.create({ data });
   }
 }

@@ -34,12 +34,13 @@ model Game {
 }
 
 model Room {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  roomCode  String  @unique
+  isStarted Boolean
 
   game   Game   @relation(fields: [gameId], references: [id])
   gameId String @db.ObjectId
 
   users      User[]
   spectators Spectator[]
-  userId     String      @db.ObjectId
 }

@@ -6,7 +6,6 @@ import { SpectatorModule } from './spectator/spectator.module';
 import { RoomModule } from './room/room.module';
 import { GameModule } from './game/game.module';
 import { ConfigModule } from '@nestjs/config';
-import { PrismaService } from './prisma.service';
 
 @Module({
   imports: [
