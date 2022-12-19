@@ -1,15 +1,21 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { GameService } from 'src/game/game.service';
 import { PrismaService } from 'src/prisma.service';
+import { SpectatorService } from 'src/spectator/spectator.service';
+import { UserService } from 'src/user/user.service';
 import * as uuid from 'uuid';
 import { AddUserDto } from './dto/add-user.dto';
 import { CreateRoomDto } from './dto/create-room.dto';
+import { Room } from '@prisma/client';
+import { CreateUserDto } from 'src/user/dto/create-user.dto';
 
 @Injectable()
 export class RoomService {
   constructor(
     private prisma: PrismaService,
     private gameService: GameService,
+    private userService: UserService,
+    private spectatorService: SpectatorService,
   ) { }
 
   getAllRooms() {
@@ -19,7 +25,7 @@ export class RoomService {
   async getRoomById(id: number) {
     const room = await this.prisma.room.findUnique({
       where: { id: `${id}` },
-      include: { users: true },
+      include: { users: true, spectators: true },
     });
 
     if (room) {
@@ -49,13 +55,33 @@ export class RoomService {
     return uuid.v4().slice(0, 5);
   }
 
-  async addUserToRoomById(roomId: number, dto: AddUserDto) {
-    const room = await this.getRoomById(roomId);
-    const user = await this.prisma.user.create({
-      data: { login: dto.login, nickname: dto.nickname, roomId: room.id },
-    });
+  deleteRoomById(roomId: number) {
+    return this.prisma.room.delete({ where: { id: `${roomId}` } });
+  }
 
-    room.users.push(user);
+  async addClientToRoomById(roomId: number, dto: AddUserDto) {
+    const room = await this.getRoomById(roomId);
+    if (room.isStarted) {
+      room.spectators.push(await this.addSpectatorToRoom(roomId, dto));
+    } else {
+      room.users.push(await this.addUserToRoom(roomId, dto));
+    }
     return room;
+  }
+
+  private async addSpectatorToRoom(roomId: number, dto: AddUserDto) {
+    const spectator = await this.spectatorService.createSpectator({
+      ...dto,
+      roomId: `${roomId}`,
+    });
+    return spectator;
+  }
+
+  private async addUserToRoom(roomId: number, dto: AddUserDto) {
+    const user = await this.userService.createUser({
+      ...dto,
+      roomId: `${roomId}`,
+    });
+    return user;
   }
 }

@@ -19,15 +19,20 @@ export class RoomController {
   }
 
   @Delete('/:roomId')
-  deleteRoomById(@Param('roomId') roomId: number) { }
+  deleteRoomById(@Param('roomId') roomId: number) {
+    return this.roomService.deleteRoomById(roomId);
+  }
 
   @Post()
   createRoom(@Body() dto: CreateRoomDto) {
     return this.roomService.createRoom(dto);
   }
 
-  @Post('/add-user/:roomId')
-  addUserToRoomById(@Param('roomId') roomId: number, @Body() dto: AddUserDto) {
-    return this.roomService.addUserToRoomById(roomId, dto);
+  @Post('/add-client/:roomId')
+  addClientToRoomById(
+    @Param('roomId') roomId: number,
+    @Body() dto: AddUserDto,
+  ) {
+    return this.roomService.addClientToRoomById(roomId, dto);
   }
 }
