@@ -35,7 +35,10 @@ export class RoomService {
   }
 
   async getRoomByRoomCode(roomCode: string) {
-    return await this.prisma.room.findFirst({ where: { roomCode } });
+    return await this.prisma.room.findFirst({
+      where: { roomCode },
+      include: { users: true, spectators: true },
+    });
   }
 
   async createRoom(dto: CreateRoomDto) {
