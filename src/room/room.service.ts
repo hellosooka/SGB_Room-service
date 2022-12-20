@@ -35,10 +35,16 @@ export class RoomService {
   }
 
   async getRoomByRoomCode(roomCode: string) {
-    return await this.prisma.room.findFirst({
+    const room = await this.prisma.room.findFirst({
       where: { roomCode },
       include: { users: true, spectators: true },
     });
+
+    if (room) {
+      return room;
+    }
+
+    throw new HttpException('Room not found', HttpStatus.NOT_FOUND);
   }
 
   async createRoom(dto: CreateRoomDto) {
