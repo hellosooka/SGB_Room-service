@@ -18,6 +18,11 @@ export class RoomController {
     return this.roomService.getRoomById(roomId);
   }
 
+  @Get('/:roomCode/byRoomCode')
+  getRoomByRoomCode(@Param('roomCode') roomCode: string) {
+    return this.roomService.getRoomByRoomCode(roomCode);
+  }
+
   @Delete('/:roomId')
   deleteRoomById(@Param('roomId') roomId: number) {
     return this.roomService.deleteRoomById(roomId);

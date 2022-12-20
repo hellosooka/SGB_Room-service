@@ -34,6 +34,10 @@ export class RoomService {
     throw new HttpException('Room not found', HttpStatus.NOT_FOUND);
   }
 
+  async getRoomByRoomCode(roomCode: string) {
+    return await this.prisma.room.findFirst({ where: { roomCode } });
+  }
+
   async createRoom(dto: CreateRoomDto) {
     const game = await this.gameService.getGameByLink(dto.gameLink);
     const roomCode = this.createRoomCode();
