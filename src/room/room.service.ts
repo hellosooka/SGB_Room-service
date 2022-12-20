@@ -1,6 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { GameService } from 'src/game/game.service';
-import { PrismaService } from 'src/prisma.service';
 import { SpectatorService } from 'src/spectator/spectator.service';
 import { UserService } from 'src/user/user.service';
 import * as uuid from 'uuid';
@@ -8,6 +7,7 @@ import { AddUserDto } from './dto/add-user.dto';
 import { CreateRoomDto } from './dto/create-room.dto';
 import { Room, User } from '@prisma/client';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class RoomService {

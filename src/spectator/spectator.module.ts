@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
-import { PrismaService } from 'src/prisma.service';
+import { PrismaModule } from 'src/prisma/prisma.module';
 import { SpectatorService } from './spectator.service';
 
 @Module({
-  providers: [SpectatorService, PrismaService],
+  imports: [PrismaModule],
+  providers: [SpectatorService],
   exports: [SpectatorService],
 })
 export class SpectatorModule { }

@@ -6,7 +6,7 @@ import { SpectatorModule } from './spectator/spectator.module';
 import { RoomModule } from './room/room.module';
 import { GameModule } from './game/game.module';
 import { ConfigModule } from '@nestjs/config';
-import { PrismaService } from './prisma.service';
+import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
   imports: [
@@ -15,8 +15,9 @@ import { PrismaService } from './prisma.service';
     RoomModule,
     GameModule,
     ConfigModule.forRoot(),
+    PrismaModule,
   ],
   controllers: [AppController],
-  providers: [AppService, PrismaService],
+  providers: [AppService],
 })
 export class AppModule { }
