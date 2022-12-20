@@ -22,4 +22,12 @@ export class GameService {
   createGame(data: Prisma.GameCreateWithoutRoomInput) {
     return this.prisma.game.create({ data });
   }
+
+  async deleteGameByLink(link: string) {
+    return await this.prisma.game.delete({ where: { link } });
+  }
+
+  async updateGameByLink(link: string, dto: Prisma.GameUpdateInput) {
+    return await this.prisma.game.update({ where: { link }, data: { ...dto } });
+  }
 }
