@@ -11,6 +11,10 @@ export class UserService {
     return this.prisma.user.findMany();
   }
 
+  getUserByNickname(nickname: string) {
+    return this.prisma.user.findFirst({ where: { nickname } });
+  }
+
   async createUser(dto: CreateUserDto) {
     return await this.prisma.user.create({
       data: { login: dto.login, nickname: dto.nickname, roomId: dto.roomId },

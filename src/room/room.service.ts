@@ -6,7 +6,7 @@ import { UserService } from 'src/user/user.service';
 import * as uuid from 'uuid';
 import { AddUserDto } from './dto/add-user.dto';
 import { CreateRoomDto } from './dto/create-room.dto';
-import { Room } from '@prisma/client';
+import { Room, User } from '@prisma/client';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 
 @Injectable()
@@ -61,12 +61,24 @@ export class RoomService {
 
   async addClientToRoomById(roomId: number, dto: AddUserDto) {
     const room = await this.getRoomById(roomId);
+    if (this.checkUserInRoom(dto.nickname, room.users)) {
+      throw new HttpException('User is exist', HttpStatus.CONFLICT);
+    }
+
     if (room.isStarted) {
       room.spectators.push(await this.addSpectatorToRoom(roomId, dto));
     } else {
       room.users.push(await this.addUserToRoom(roomId, dto));
     }
     return room;
+  }
+
+  private async checkUserInRoom(nickname: string, users: User[]) {
+    const user = users.find((user) => user.nickname == nickname);
+    if (user) {
+      return true;
+    }
+    return false;
   }
 
   private async addSpectatorToRoom(roomId: number, dto: AddUserDto) {
