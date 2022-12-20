@@ -1,5 +1,8 @@
 {
   "version": 2,
+  "env": {
+    "DATABASE_URL": "mongodb+srv://admin:zQMDv9l6DqIHAS0C@cluster0.fgwh3ze.mongodb.net/SGB_RoomService"
+  },
   "builds": [
     {
       "src": "src/main.ts",
