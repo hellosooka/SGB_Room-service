@@ -30,6 +30,10 @@ model Spectator {
 model Game {
   id   String @id @default(auto()) @map("_id") @db.ObjectId
   link String @unique
+
+  maxUsers      Int
+  maxSpectators Int
+
   Room Room[]
 }
 

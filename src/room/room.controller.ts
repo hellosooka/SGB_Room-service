@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { RoomService } from './room.service';
 import { Prisma } from '@prisma/client';
 import { CreateRoomDto } from './dto/create-room.dto';
@@ -39,5 +47,10 @@ export class RoomController {
     @Body() dto: AddUserDto,
   ) {
     return this.roomService.addClientToRoomById(roomId, dto);
+  }
+
+  @Put(':roomCode/start')
+  startGame(@Param('roomCode') roomCode: string) {
+    return this.roomService.startGame(roomCode);
   }
 }

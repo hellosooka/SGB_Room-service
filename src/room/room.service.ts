@@ -85,12 +85,12 @@ export class RoomService {
     return room;
   }
 
-  private async checkUserInRoom(nickname: string, users: User[]) {
+  private checkUserInRoom(nickname: string, users: User[]) {
     const user = users.find((user) => user.nickname == nickname);
-    if (user) {
-      return true;
+    if (!user) {
+      return false;
     }
-    return false;
+    return true;
   }
 
   private async addSpectatorToRoom(roomId: number, dto: AddUserDto) {
@@ -107,5 +107,16 @@ export class RoomService {
       roomId: `${roomId}`,
     });
     return user;
+  }
+
+  async startGame(roomCode: string) {
+    try {
+      return await this.prisma.room.update({
+        where: { roomCode },
+        data: { isStarted: true },
+      });
+    } catch {
+      throw new HttpException('Room not found', HttpStatus.NOT_FOUND);
+    }
   }
 }
