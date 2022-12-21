@@ -19,13 +19,15 @@ export class RoomService {
   ) { }
 
   getAllRooms() {
-    return this.prisma.room.findMany({ include: { users: true } });
+    return this.prisma.room.findMany({
+      include: { users: true, spectators: true },
+    });
   }
 
   async getRoomById(id: number) {
     const room = await this.prisma.room.findFirst({
       where: { id: `${id}` },
-      include: { users: true, spectators: true },
+      include: { users: true, spectators: true, game: true },
     });
 
     if (!room) {
