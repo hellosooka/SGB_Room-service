@@ -12,7 +12,6 @@ async function bootstrap() {
       'http://localhost:5173',
       'https://sgb-main-hub-client-xx82.vercel.app',
     ],
-    credentials: true,
   });
 
   const PORT = process.env.SERVER_PORT;
