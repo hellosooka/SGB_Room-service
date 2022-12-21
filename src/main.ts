@@ -8,7 +8,10 @@ async function bootstrap() {
 
   app.enableCors({
     methods: ['GET', 'POST', 'PUT'],
-    origin: ['http://localhost:5173'],
+    origin: [
+      'http://localhost:5173',
+      'https://sgb-main-hub-client-xx82.vercel.app',
+    ],
     credentials: true,
   });
 
