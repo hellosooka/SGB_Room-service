@@ -39,7 +39,7 @@ export class RoomService {
   async getRoomByRoomCode(roomCode: string) {
     const room = await this.prisma.room.findFirst({
       where: { roomCode },
-      include: { users: true, spectators: true },
+      include: { users: true, spectators: true, game: true },
     });
 
     if (!room) {
